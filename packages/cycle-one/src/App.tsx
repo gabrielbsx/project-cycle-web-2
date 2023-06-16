@@ -1,11 +1,14 @@
 import { CycleNeutralTemplate } from "./components/templates/cycle-neutral";
+import { DarkModeProvider } from "./context/dark-mode";
 import { RoutersProvider } from "./routes";
 
 function App() {
   return (
-    <CycleNeutralTemplate>
-      <RoutersProvider />
-    </CycleNeutralTemplate>
+    <DarkModeProvider>
+      <CycleNeutralTemplate>
+        <RoutersProvider />
+      </CycleNeutralTemplate>
+    </DarkModeProvider>
   );
 }
 
