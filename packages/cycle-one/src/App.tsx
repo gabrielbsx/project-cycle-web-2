@@ -1,3 +1,4 @@
+import { BrowserRouter } from "react-router-dom";
 import { CycleNeutralTemplate } from "./components/templates/cycle-neutral";
 import { DarkModeProvider } from "./context/dark-mode";
 import { RoutersProvider } from "./routes";
@@ -5,9 +6,11 @@ import { RoutersProvider } from "./routes";
 function App() {
   return (
     <DarkModeProvider>
-      <CycleNeutralTemplate>
-        <RoutersProvider />
-      </CycleNeutralTemplate>
+      <BrowserRouter>
+        <CycleNeutralTemplate>
+          <RoutersProvider />
+        </CycleNeutralTemplate>
+      </BrowserRouter>
     </DarkModeProvider>
   );
 }
