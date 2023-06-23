@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  mongo:
+    restart: always
+    build: ./mongodb_replica
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: prisma
+      MONGO_INITDB_DATABASE: cycle
+      MONGO_REPLICA_HOST: localhost
+      MONGO_REPLICA_PORT: 27017
+    ports:
+      - '27017:27017'
