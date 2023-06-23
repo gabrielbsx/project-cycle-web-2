@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/home";
 import { About } from "./pages/about";
-import { SignIn } from "./pages/sign-in";
 import { Technologies } from "./pages/technologies";
 import { Contact } from "./pages/contact";
 
@@ -28,13 +27,7 @@ export const mainNavigationRoutes = [
   },
 ];
 
-export const authRoutes = [
-  {
-    name: "Assinantes",
-    path: "/sign-in",
-    element: <SignIn />,
-  },
-];
+export const authRoutes = [];
 
 const routes = [...mainNavigationRoutes, ...authRoutes];
 
