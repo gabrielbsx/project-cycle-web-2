@@ -2,6 +2,7 @@ import { useContext } from "react";
 import CatLogo from "../../assets/images/cat-logo.png";
 import { mainNavigationRoutes, authRoutes } from "../../routes";
 import { DarkModeContext } from "../../context/dark-mode";
+import { isAuthUser } from "../../utils/validate-auth-user";
 
 export const Header = () => {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -33,6 +34,18 @@ export const Header = () => {
                 </a>
               </li>
             ))}
+            {isAuthUser() ? (
+              <button
+                className="border dark:border-neutral-700 rounded px-2 py-1 hover:bg-neutral-100 font-light dark:hover:bg-neutral-700 dark:bg-neutral-900 dark:text-white text-black"
+                onClick={() => {
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("token");
+                  window.location.href = "/";
+                }}
+              >
+                Sair
+              </button>
+            ) : null}
           </ul>
         </div>
         <div className="flex mr-5">
