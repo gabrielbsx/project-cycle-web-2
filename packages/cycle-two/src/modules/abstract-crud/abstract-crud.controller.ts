@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { abstractCRUDUseCase } from "./abstract-crud.usecase";
+import { AuthData, abstractCRUDUseCase } from "./abstract-crud.usecase";
 import {
   Operator,
   Pagination,
@@ -29,34 +29,56 @@ const convertMethodToOperator = (method: string, hasId: boolean) => {
   }
 };
 
+const getRelationToPersistEntity = (entity: string, data: any) => {
+  switch (entity) {
+    case "server":
+      return [
+        {
+          table: "user",
+          id: data.userId,
+        },
+      ];
+    case "item":
+      return [
+        {
+          table: "server",
+          id: data.serverId,
+        },
+      ];
+    default:
+      return [];
+  }
+};
+
 export const abstractCRUDController = async (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
-  if (not(validateEntity(request.params.entity))) {
+  const { method, query, body, params } = request;
+  const { entity, id } = params;
+  if (not(validateEntity(entity))) {
     return next(validationError("Invalid entity"));
   }
-  const operator = convertMethodToOperator(request.method, !!request.params.id);
+  const operator = convertMethodToOperator(method, !!id);
   if (not(validateOperator(operator))) {
     return next(validationError("Invalid operator"));
   }
   if (operator === "readAll") {
-    const pagination = validatePagination(request.query);
-    Object.assign(request.query, pagination);
+    const pagination = validatePagination(query);
+    Object.assign(query, pagination);
     if (not(pagination)) {
       return next(validationError("Invalid pagination"));
     }
   }
-  const abstractDTO = abstractCRUDValidator(
-    request.body,
-    request.params.entity + ":" + operator
-  );
+  const abstractDTO = abstractCRUDValidator(body, entity + ":" + operator);
+  const userId = request.user.id;
   const [error, abstractData] = await abstractCRUDUseCase(
     abstractDTO,
-    request.params.entity,
+    entity,
     operator as Operator,
-    request.query as unknown as Pagination
+    query as unknown as Pagination,
+    getRelationToPersistEntity(entity, { ...body, ...params, userId })
   );
   if (error) {
     return next(error);

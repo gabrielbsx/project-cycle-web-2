@@ -3,11 +3,53 @@ import { left, right } from "../../utils/either";
 import { badRequest, ok } from "../../utils/http";
 import { Operator, Pagination } from "./abstract-crud.validator";
 
+export interface AuthData {
+  id: string;
+  role?: string;
+}
+
+export interface Relation {
+  table: string;
+  id: string;
+}
+
+const getIncludeFromEntity = (entity: string) => {
+  switch (entity) {
+    case "server":
+      return {
+        user: true,
+      };
+    case "item":
+      return {
+        server: true,
+      };
+    default:
+      return {};
+  }
+};
+
+const addRelationAndInputsToPersistEntity = (
+  data: any,
+  relation: Relation[]
+) => {
+  return {
+    ...data,
+    ...relation.map((curr) => ({
+      [curr.table]: {
+        connect: {
+          id: curr.id,
+        },
+      },
+    })),
+  };
+};
+
 export const abstractCRUDUseCase = async (
   data: any,
   entity: string,
   operator: Operator,
-  pagination: Pagination
+  pagination: Pagination,
+  relation: Relation[]
 ) => {
   const { id, ...dataWithoutId } = data;
   switch (operator) {
@@ -16,7 +58,7 @@ export const abstractCRUDUseCase = async (
         ok({
           data: await db[entity].create({
             data: {
-              ...dataWithoutId,
+              ...addRelationAndInputsToPersistEntity(dataWithoutId, relation),
             },
           }),
           statusCode: 201,
@@ -45,14 +87,17 @@ export const abstractCRUDUseCase = async (
         orderBy: {
           [pagination.orderBy]: pagination.orderType,
         },
-      })
+        include: {
+          ...getIncludeFromEntity(entity),
+        },
+      });
       const count = await db[entity].count({
         where: {
           [pagination.searchBy]: {
             contains: pagination.search,
           },
         },
-      })
+      });
       return right(
         ok({
           data,
