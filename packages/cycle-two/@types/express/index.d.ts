@@ -1,14 +1,6 @@
 declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      TOKEN_SECRET: string;
-      PORT: string;
-      DATABASE_URL: string;
-    }
-  }
-
   namespace Express {
-    interface Request {
+    export interface Request {
       user?: {
         id: string;
         email: string;
