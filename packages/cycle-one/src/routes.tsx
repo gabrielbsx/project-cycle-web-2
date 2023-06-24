@@ -3,12 +3,21 @@ import { Home } from "./pages/home";
 import { About } from "./pages/about";
 import { Technologies } from "./pages/technologies";
 import { Contact } from "./pages/contact";
+import { isGuestUser } from "./utils/validate-guest-user";
+import { Dashboard } from "./pages/dashboard";
+import { Items } from "./pages/items";
 
-export const mainNavigationRoutes = [
+interface Router {
+  name: string;
+  path: string;
+  element: JSX.Element;
+}
+
+export const mainNavigationRoutes: Router[] = [
   {
     name: "Início",
     path: "/",
-    element: <Home />,
+    element: isGuestUser() ? <Home /> : <Dashboard />,
   },
   {
     name: "Sobre o projeto",
@@ -27,9 +36,22 @@ export const mainNavigationRoutes = [
   },
 ];
 
-export const authRoutes = [];
+export const authRoutes: Router[] = [];
 
-const routes = [...mainNavigationRoutes, ...authRoutes];
+export const subMenuRoutes: Router[] = [
+  {
+    name: "Servidores",
+    path: "/",
+    element: <Dashboard />,
+  },
+  {
+    name: "Itens",
+    path: "/items",
+    element: <Items />,
+  },
+];
+
+const routes = [...mainNavigationRoutes, ...authRoutes, ...subMenuRoutes];
 
 export const RoutersProvider = () => {
   return (

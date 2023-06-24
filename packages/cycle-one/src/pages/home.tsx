@@ -3,8 +3,12 @@ import { Card } from "../components/card";
 import { DescriptionProject } from "../components/description-project";
 import { SignIn } from "../components/auth/sign-in";
 import { SignUp } from "../components/auth/sign-up";
+import { isGuestUser } from "../utils/validate-guest-user";
 
 export const Home = () => {
+  if (!isGuestUser()) {
+    window.location.href = "/dashboard";
+  }
   return (
     <div className="min-h-screen flex items-center justify-center flex-col">
       <div className="container mx-auto flex flex-row gap-4 xl:w-2/3 justify-center items-start">
