@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Card } from "../card";
 import { api } from "../../services/api.service";
+import { toast } from "react-toastify";
 
 interface SignUpData {
   name: string;
@@ -16,7 +17,9 @@ export const SignUp = () => {
   } = useForm<SignUpData>();
   const onSubmit = async (signUpData: SignUpData) => {
     const response = await api.post("/users", signUpData);
-    console.log(response);
+    if (response.status === 201) {
+      toast.success("Cadastro efetuado com sucesso!");
+    }
   };
   return (
     <Card

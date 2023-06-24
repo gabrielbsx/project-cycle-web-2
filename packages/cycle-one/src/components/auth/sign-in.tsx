@@ -1,6 +1,7 @@
 import { api } from "../../services/api.service";
 import { Card } from "../card";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface SignInData {
   email: string;
@@ -15,7 +16,13 @@ export const SignIn = () => {
   } = useForm<SignInData>();
   const onSubmit = async (signInData: SignInData) => {
     const response = await api.post("/auth", signInData);
-    console.log(response);
+    if (response.status !== 200) {
+      toast.error("Erro ao efetuar login!");
+      return;
+    }
+    toast.success("Login efetuado com sucesso!");
+    localStorage.setItem("token", response.data.token);
+    console.log(response.data.user);
   };
   return (
     <Card
