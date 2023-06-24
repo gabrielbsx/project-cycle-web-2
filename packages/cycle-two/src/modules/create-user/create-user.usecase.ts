@@ -1,23 +1,26 @@
 import { db } from "../../data/prisma.repository";
+import { cryptography } from "../../services/cryptography/bcrypt";
+import { left, right } from "../../utils/either";
+import { badRequest } from "../../utils/http";
 import { CreateUserDTO } from "./create-user.dto";
-import bcrypt from "bcrypt";
 
 export const createUserUseCase = async (createUserDTO: CreateUserDTO) => {
-  const { email, password } = createUserDTO;
-  const passwordHashed = await bcrypt.hash(password, await bcrypt.genSalt());
+  const { name, email, password } = createUserDTO;
+  const passwordHashed = await cryptography.hash(password);
   const isUserCreated = await db.user.findFirst({
     where: {
       email,
     },
   });
   if (isUserCreated) {
-    return [new Error("User already exists"), null];
+    return left(badRequest("User already exists"));
   }
   await db.user.create({
     data: {
+      name,
       email,
       password: passwordHashed,
     },
   });
-  return [null, true];
+  return right(true);
 };

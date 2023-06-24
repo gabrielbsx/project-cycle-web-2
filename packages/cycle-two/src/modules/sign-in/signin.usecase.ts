@@ -1,4 +1,8 @@
 import { db } from "../../data/prisma.repository";
+import { tokenizer } from "../../services/tokenizer/jwt";
+import { left, right } from "../../utils/either";
+import { badRequest } from "../../utils/http";
+import { not } from "../../utils/operators";
 import { SignInDTO } from "./signin.dto";
 import bcrypt from "bcrypt";
 
@@ -10,10 +14,24 @@ export const signInUseCase = async (signInDTO: SignInDTO) => {
     },
   });
   if (!user) {
-    return [new Error("User is not found"), null];
+    return left(badRequest("User is not found"));
   }
-  if (!(await bcrypt.compare(password, user.password))) {
-    return [new Error("Password is not match!"), null];
+  const isPasswordHashedEqualPasswordDTO = await bcrypt.compare(
+    password,
+    user.password
+  );
+  if (not(isPasswordHashedEqualPasswordDTO)) {
+    return left(badRequest("Password is not match!"));
   }
-  return [null, Object.assign(user, { password: undefined })];
+  const userWithoutPassword = Object.assign(user, { password: undefined });
+  const token = await tokenizer.sign(
+    userWithoutPassword,
+    process.env.TOKEN_SECRET,
+    { expiresIn: "1h" }
+  );
+  const data = {
+    user: userWithoutPassword,
+    token,
+  };
+  return right(data);
 };
