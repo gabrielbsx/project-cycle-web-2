@@ -4,16 +4,19 @@ import { DarkModeProvider } from "./context/dark-mode";
 import { RoutersProvider } from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from "./context/user-context";
 
 function App() {
   return (
     <DarkModeProvider>
-      <ToastContainer />
-      <BrowserRouter>
-        <CycleNeutralTemplate>
-          <RoutersProvider />
-        </CycleNeutralTemplate>
-      </BrowserRouter>
+      <UserProvider>
+        <ToastContainer />
+        <BrowserRouter>
+          <CycleNeutralTemplate>
+            <RoutersProvider />
+          </CycleNeutralTemplate>
+        </BrowserRouter>
+      </UserProvider>
     </DarkModeProvider>
   );
 }

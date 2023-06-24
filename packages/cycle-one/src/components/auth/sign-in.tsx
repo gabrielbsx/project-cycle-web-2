@@ -1,7 +1,10 @@
+import { UserContext } from "../../context/user-context";
 import { api } from "../../services/api.service";
 import { Card } from "../card";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { User } from "../../schema/user";
 
 interface SignInData {
   email: string;
@@ -14,15 +17,15 @@ export const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<SignInData>();
+  const { setUser } = useContext(UserContext);
   const onSubmit = async (signInData: SignInData) => {
     const response = await api.post("/auth", signInData);
-    if (response.status !== 200) {
-      toast.error("Erro ao efetuar login!");
-      return;
+    if (response.status === 200) {
+      toast.success("Login efetuado com sucesso!");
+      localStorage.setItem("token", response.data.token);
+      setUser(response.data.user as User);
+      window.location.href = "/";
     }
-    toast.success("Login efetuado com sucesso!");
-    localStorage.setItem("token", response.data.token);
-    console.log(response.data.user);
   };
   return (
     <Card
