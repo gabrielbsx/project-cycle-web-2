@@ -34,13 +34,14 @@ const addRelationAndInputsToPersistEntity = (
 ) => {
   return {
     ...data,
-    ...relation.map((curr) => ({
+    ...relation.reduce((acc, curr) => ({
+      ...acc,
       [curr.table]: {
         connect: {
           id: curr.id,
         },
       },
-    })),
+    }), {}),
   };
 };
 
