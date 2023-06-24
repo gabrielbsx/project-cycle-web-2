@@ -18,11 +18,14 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Server    Server[]
 }
 
 model Server {
   id        String   @id @default(cuid()) @map("_id")
   name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
   Item      Item[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
