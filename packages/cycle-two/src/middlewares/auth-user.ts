@@ -16,7 +16,7 @@ export const authUser = async (
       message: "You are not logged in",
     });
   }
-  const [, token] = authorization.split(" ");
+  const [_, token] = authorization.split(" ");
   if (!token) {
     return response.status(401).json({
       message: "You are not logged in",

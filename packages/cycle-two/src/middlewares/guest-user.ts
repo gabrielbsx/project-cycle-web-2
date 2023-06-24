@@ -1,15 +1,24 @@
 import { Request, Response, NextFunction } from "express";
+import { eitherWrapper } from "../utils/either";
+import { tokenizer } from "../services/tokenizer/jwt";
 
-export const guestUser = (
+export const guestUser = async (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
   const { authorization } = request.headers;
-  if (authorization) {
-    return response.status(401).json({
-      message: "You are already logged in",
-    });
+  if (!authorization) {
+    return next();
   }
-  next();
+  const [, token] = authorization.split(" ");
+  if (!token) {
+    return next();
+  }
+  const [error, _] = await eitherWrapper(
+    tokenizer.verify(token, process.env.TOKEN_SECRET)
+  );
+  if (error) {
+    next();
+  }
 };
