@@ -65,6 +65,6 @@ export const apiService = {
       params: pagination,
       data,
     });
-    return response;
+    return response.data;
   },
 };
