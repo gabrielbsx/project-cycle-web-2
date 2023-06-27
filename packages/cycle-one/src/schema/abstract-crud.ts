@@ -9,6 +9,11 @@ export enum OperatorEnum {
 export enum OrderByEnum {
   CreatedAt = "createdAt",
   UpdatedAt = "updatedAt",
+  Name = "name",
+  Identifier = "identifier",
+  ServerName = "serverName",
+  Effects = "effects",
+  Author = "author",
 }
 
 export enum OrderTypeEnum {

@@ -8,6 +8,7 @@ export const paginateServerUseCase = async (request: Request, response: Response
         page: z.string().min(1).max(255).default('1').transform((val) => Number(val)),
         limit: z.string().min(1).max(255).default('10').transform((val) => Number(val)),
     });
+    const { orderBy, orderType } = query as { orderBy: string, orderType: string }
     const data = schema.parse(query);
     const page = data.page;
     const limit = data.limit;
@@ -21,11 +22,27 @@ export const paginateServerUseCase = async (request: Request, response: Response
         skip: (page - 1) * limit,
         take: limit,
     }
+    let orderByObj: any = {};
+    if (orderBy && orderType) {
+        if (orderBy === 'author') {
+            orderByObj = {
+                user: {
+                    name: orderType,
+                },
+            };
+        } else {
+            orderByObj = {
+                [orderBy]: orderType,
+            };
+        }
+    } else {
+        orderByObj = {
+            createdAt: 'desc',
+        };
+    }
     const servers = await db.server.findMany({
         ...paginate,
-        orderBy: {
-            createdAt: 'desc',
-        },
+        orderBy: orderByObj,
         include: {
             user: true,
         },

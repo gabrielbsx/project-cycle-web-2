@@ -13,6 +13,7 @@ import { Server } from "../schema/server";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { Paginate } from "../components/paginate";
+import { DownArrow, UpArrow } from "../components/icons/arrows";
 
 interface AddServerFormValues {
   name: string;
@@ -208,9 +209,69 @@ export const Dashboard = () => {
                     <thead className="border-b font-medium dark:border-neutral-500 bg-neutral-50 dark:text-neutral-200 dark:bg-neutral-800">
                       <tr>
                         <th className="px-6 py-4">#</th>
-                        <th className="px-6 py-4">Nome</th>
-                        <th className="px-6 py-4">Autor</th>
-                        <th className="px-6 py-4">Criado em</th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.Name);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Nome</span>
+                            {orderBy === OrderByEnum.Name &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.Author);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Autor</span>
+                            {orderBy === OrderByEnum.Author &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.CreatedAt);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Criado em</span>
+                            {orderBy === OrderByEnum.CreatedAt &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
                         <th className="px-6 py-4">Ações</th>
                       </tr>
                     </thead>
@@ -224,11 +285,11 @@ export const Dashboard = () => {
                             <td className="whitespace-nowrap px-6 py-4 ">
                               {index + 1}
                             </td>
-                            <td className="w-1/2 px-6 py-4 ">{server.name}</td>
-                            <td className="w-1/2 px-6 py-4 ">
+                            <td className="w-1/2 px-6 py-4">{server.name}</td>
+                            <td className="w-1/2 px-6 py-4">
                               {server.user.name ?? server.user.email}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 ">
+                            <td className="whitespace-nowrap px-6 py-4">
                               {new Date(server.createdAt).toLocaleString(
                                 "pt-BR",
                                 {

@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import useSWR from "swr";
 import { Paginate } from "../components/paginate";
 import { Item } from "../schema/item";
+import { DownArrow, UpArrow } from "../components/icons/arrows";
 
 interface AddItemFormValues {
   name: string;
@@ -303,11 +304,111 @@ export const Items = () => {
                     <thead className="border-b font-medium dark:border-neutral-500 bg-neutral-50 dark:text-neutral-200 dark:bg-neutral-800">
                       <tr>
                         <th className="px-6 py-4">#</th>
-                        <th className="px-6 py-4">Nome</th>
-                        <th className="px-6 py-4">Identificador</th>
-                        <th className="px-6 py-4">Efeitos</th>
-                        <th className="px-6 py-4">Servidor</th>
-                        <th className="px-6 py-4">Criado em</th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.Name);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Nome</span>
+                            {orderBy === OrderByEnum.Name &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.Identifier);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Identificador</span>
+                            {orderBy === OrderByEnum.Identifier &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.Effects);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Efeitos</span>
+                            {orderBy === OrderByEnum.Effects &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.ServerName);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Servidor</span>
+                            {orderBy === OrderByEnum.ServerName &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
+                        <th
+                          className="px-6 py-4 cursor-pointer"
+                          onClick={() => {
+                            setOrderBy(OrderByEnum.CreatedAt);
+                            setOrderType(
+                              orderType === OrderTypeEnum.Asc
+                                ? OrderTypeEnum.Desc
+                                : OrderTypeEnum.Asc
+                            );
+                          }}
+                        >
+                          <div className="flex flex-row items-center gap-4">
+                            <span>Criado em</span>
+                            {orderBy === OrderByEnum.CreatedAt &&
+                              (orderType === OrderTypeEnum.Asc ? (
+                                <UpArrow className="w-[10px]" />
+                              ) : (
+                                <DownArrow className="w-[10px]" />
+                              ))}
+                          </div>
+                        </th>
                         <th className="px-6 py-4">Ações</th>
                       </tr>
                     </thead>
