@@ -14,10 +14,12 @@ import { deleteItemUseCase } from "./modules/items/delete.usecase";
 import { updateItemUseCase } from "./modules/items/update.usecase";
 import { createItemUseCase } from "./modules/items/create.usecase";
 import { findAllServerUseCase } from "./modules/servers/find-all.usecase";
+import { updateUserUseCase } from "./modules/users/update-user.usecase";
 
 export const routesFactory = (app: Express) => {
   app.post("/users", guestUser, createUserController);
   app.post("/auth", guestUser, signInController);
+  app.put("/users", authUser, updateUserUseCase);
 
   app.post('/servers', authUser, createServerUseCase);
   app.get('/servers', paginateServerUseCase);

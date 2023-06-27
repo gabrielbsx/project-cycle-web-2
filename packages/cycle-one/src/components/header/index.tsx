@@ -35,16 +35,26 @@ export const Header = () => {
               </li>
             ))}
             {isAuthUser() ? (
-              <button
-                className="border dark:border-neutral-700 rounded px-2 py-1 hover:bg-neutral-100 font-light dark:hover:bg-neutral-700 dark:bg-neutral-900 dark:text-white text-black"
-                onClick={() => {
-                  localStorage.removeItem("user");
-                  localStorage.removeItem("token");
-                  window.location.href = "/";
-                }}
-              >
-                Sair
-              </button>
+              <>
+                <button
+                  className="border dark:border-neutral-700 rounded px-2 py-1 hover:bg-neutral-100 font-light dark:hover:bg-neutral-700 dark:bg-neutral-900 dark:text-white text-black"
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("token");
+                    window.location.href = "/";
+                  }}
+                >
+                  Sair
+                </button>
+                <button
+                  className="border dark:border-neutral-700 rounded px-2 py-1 hover:bg-neutral-100 font-light dark:hover:bg-neutral-700 dark:bg-neutral-900 dark:text-white text-black"
+                  onClick={() => {
+                    window.location.href = "/profile";
+                  }}
+                >
+                  Perfil
+                </button>
+              </>
             ) : null}
           </ul>
         </div>

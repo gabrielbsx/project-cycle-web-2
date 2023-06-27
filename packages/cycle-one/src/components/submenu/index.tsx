@@ -21,7 +21,7 @@ export const SubMenu = () => {
       <div className="flex flex-row justify-end items-center border-b p-2">
         <span className="text-sm text-neutral-600 dark:text-neutral-100 font-light italic">
           Você está logado como:
-          {user?.email}
+          {user?.name ?? user?.email}
         </span>
       </div>
     </nav>

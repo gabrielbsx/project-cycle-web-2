@@ -307,6 +307,7 @@ export const Items = () => {
                         <th className="px-6 py-4">Identificador</th>
                         <th className="px-6 py-4">Efeitos</th>
                         <th className="px-6 py-4">Servidor</th>
+                        <th className="px-6 py-4">Criado em</th>
                         <th className="px-6 py-4">Ações</th>
                       </tr>
                     </thead>
@@ -326,6 +327,16 @@ export const Items = () => {
                           <td className="w-1/2 px-6 py-4 ">{item.effects}</td>
                           <td className="w-1/2 px-6 py-4 ">
                             {item.server.name}
+                          </td>
+                          <td className="w-1/2 px-6 py-4 ">
+                            {new Date(item.createdAt).toLocaleString("pt-BR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              second: "2-digit",
+                            })}
                           </td>
                           <td className="whitespace- px-6 py-4 gap-4 flex">
                             <button

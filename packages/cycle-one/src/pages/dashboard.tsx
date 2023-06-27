@@ -210,6 +210,7 @@ export const Dashboard = () => {
                         <th className="px-6 py-4">#</th>
                         <th className="px-6 py-4">Nome</th>
                         <th className="px-6 py-4">Autor</th>
+                        <th className="px-6 py-4">Criado em</th>
                         <th className="px-6 py-4">Ações</th>
                       </tr>
                     </thead>
@@ -226,6 +227,19 @@ export const Dashboard = () => {
                             <td className="w-1/2 px-6 py-4 ">{server.name}</td>
                             <td className="w-1/2 px-6 py-4 ">
                               {server.user.name ?? server.user.email}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 ">
+                              {new Date(server.createdAt).toLocaleString(
+                                "pt-BR",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit",
+                                }
+                              )}
                             </td>
                             <td className="whitespace- px-6 py-4 gap-4 flex">
                               <button

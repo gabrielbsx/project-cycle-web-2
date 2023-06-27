@@ -6,6 +6,7 @@ import { Contact } from "./pages/contact";
 import { isGuestUser } from "./utils/validate-guest-user";
 import { Dashboard } from "./pages/dashboard";
 import { Items } from "./pages/items";
+import { Profile } from "./pages/profile";
 
 interface Router {
   name: string;
@@ -51,7 +52,18 @@ export const subMenuRoutes: Router[] = [
   },
 ];
 
-const routes = [...mainNavigationRoutes, ...authRoutes, ...subMenuRoutes];
+const profileRoute = {
+  name: "Perfil",
+  path: "/profile",
+  element: <Profile />,
+};
+
+const routes = [
+  ...mainNavigationRoutes,
+  ...authRoutes,
+  ...subMenuRoutes,
+  profileRoute,
+];
 
 export const RoutersProvider = () => {
   return (

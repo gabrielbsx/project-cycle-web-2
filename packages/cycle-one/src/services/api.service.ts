@@ -32,6 +32,15 @@ api.interceptors.response.use(
     if (error.response?.status === 500) {
       toast.error("Internal server error");
     }
+    if (error.response?.status === 400) {
+      toast.error(error.response.data.message);
+    }
+    if (error.response?.status === 422) {
+      toast.error(error.response.data.message);
+    }
+    if (error.response?.status === 402) {
+      toast.error(error.response.data.message);
+    }
     return Promise.reject(error);
   }
 );
