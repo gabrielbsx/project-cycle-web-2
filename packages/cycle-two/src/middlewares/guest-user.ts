@@ -8,6 +8,7 @@ export const guestUser = async (
   next: NextFunction
 ) => {
   const { authorization } = request.headers;
+  console.log(authorization)
   if (!authorization) {
     return next();
   }
@@ -16,7 +17,7 @@ export const guestUser = async (
     return next();
   }
   const [error, _] = await eitherWrapper(
-    tokenizer.verify(token, process.env.TOKEN_SECRET)
+    tokenizer.verify(token, process.env.TOKEN_SECRET as string)
   );
   if (error) {
     next();

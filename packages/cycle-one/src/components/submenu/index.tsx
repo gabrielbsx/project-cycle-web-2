@@ -6,7 +6,7 @@ export const SubMenu = () => {
   const { user } = useContext(UserContext);
   return (
     <nav className="border-b flex flex-row justify-around">
-      <ul className="flex flex-row justify-start items-center p-2">
+      <ul className="flex flex-row justify-start items-center p-2 gap-4">
         {subMenuRoutes.map((route, index) => (
           <li key={index}>
             <a

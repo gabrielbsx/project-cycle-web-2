@@ -7,6 +7,7 @@ export const createUserController = async (
   response: Response,
   next: NextFunction
 ) => {
+  console.log(request);
   const createUserDTO = createUserValidator(request.body);
   const [error, isUserCreated] = await createUserUseCase(createUserDTO);
   if (error) {

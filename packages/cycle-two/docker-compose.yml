@@ -1,13 +1,14 @@
-version: '3.1'
+version: '3.7'
 services:
-  mongo:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
     restart: always
-    build: ./mongodb_replica
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: prisma
-      MONGO_INITDB_DATABASE: cycle
-      MONGO_REPLICA_HOST: localhost
-      MONGO_REPLICA_PORT: 27017
+      POSTGRES_USER: cycle
+      POSTGRES_PASSWORD: cycle
+      POSTGRES_DB: cycle
     ports:
-      - '27017:27017'
+      - 6543:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

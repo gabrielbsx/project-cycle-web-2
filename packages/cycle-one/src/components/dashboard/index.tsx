@@ -9,9 +9,7 @@ export const DashboardBase = ({ children }: { children: JSX.Element }) => {
     <div>
       <Header />
       <SubMenu />
-      <div className="container mx-auto flex py-5">
-        {children}
-      </div>
+      <div className="container mx-auto flex py-5">{children}</div>
     </div>
   );
 };

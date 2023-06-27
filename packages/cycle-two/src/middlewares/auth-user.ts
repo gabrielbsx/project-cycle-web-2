@@ -23,7 +23,7 @@ export const authUser = async (
     });
   }
   const [error, userDecoded] = await eitherWrapper<UserWithoutPassword>(
-    tokenizer.verify(token, process.env.TOKEN_SECRET)
+    tokenizer.verify(token, process.env.TOKEN_SECRET as string)
   );
   if (error) {
     return response.status(401).json({

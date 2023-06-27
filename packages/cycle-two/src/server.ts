@@ -15,7 +15,7 @@ const { PORT } = process.env;
 
 const app = express();
 
-app.use(logRequest);
+// app.use(logRequest);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,5 +24,5 @@ routesFactory(app);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log("Server listening on port 3000");
+  console.log(`Server is running on port ${PORT}`);
 });

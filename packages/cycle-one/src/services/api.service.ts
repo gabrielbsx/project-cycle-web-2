@@ -12,12 +12,6 @@ export interface AbstractCRUD {
 
 export const api = axios.create({
   baseURL: "/api",
-  timeout: 1000,
-});
-
-api.interceptors.request.use((config) => {
-  config.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
-  return config;
 });
 
 api.interceptors.response.use(
@@ -25,13 +19,27 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
-      toast.error("Unauthorized");
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/";
     }
-    toast.error(error.response.data.message);
+    if (error.response?.status === 403) {
+      toast.error("You don't have permission to do this action");
+    }
+    if (error.response?.status === 404) {
+      toast.error("Not found");
+    }
+    if (error.response?.status === 500) {
+      toast.error("Internal server error");
+    }
     return Promise.reject(error);
   }
 );
+
+api.interceptors.request.use((config) => {
+  config.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
+  return config;
+});
 
 const convertOperatorToMethod = (operator: Operator) => {
   switch (operator) {
